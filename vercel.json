@@ -11,5 +11,24 @@
       "src": "/(.*)",
       "dest": "dist/server.js"
     }
+  ],
+  "env": {
+    "NODE_ENV": "production"
+  },
+  "github": {
+    "enabled": true,
+    "silent": false,
+    "autoJobCancellation": true
+  },
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
+    }
   ]
 } 

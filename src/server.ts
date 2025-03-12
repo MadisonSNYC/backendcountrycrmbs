@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import rateLimit from 'express-rate-limit';
 import { createClient } from '@supabase/supabase-js';
 import waitlistRoutes from './routes/waitlist.routes';
+import testRoutes from './routes/test.routes';
 
 dotenv.config();
 
@@ -31,6 +32,7 @@ app.use(limiter);
 
 // Routes
 app.use('/api/waitlist', waitlistRoutes);
+app.use('/api/test', testRoutes);
 
 // Health check endpoint
 app.get('/health', (req, res) => {
