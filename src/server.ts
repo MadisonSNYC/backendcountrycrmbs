@@ -3,13 +3,19 @@ import cors from 'cors';
 import helmet from 'helmet';
 import dotenv from 'dotenv';
 import rateLimit from 'express-rate-limit';
+import { createClient } from '@supabase/supabase-js';
 import waitlistRoutes from './routes/waitlist.routes';
-import './lib/supabase';
 
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3000;
+
+// Initialize Supabase client
+export const supabase = createClient(
+  process.env.SUPABASE_URL || '',
+  process.env.SUPABASE_ANON_KEY || ''
+);
 
 // Middleware
 app.use(helmet());

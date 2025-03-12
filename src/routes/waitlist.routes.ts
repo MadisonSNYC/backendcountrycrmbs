@@ -1,6 +1,6 @@
-import express, { Request, Response } from 'express';
+import express from 'express';
 import { body, validationResult } from 'express-validator';
-import { supabase } from '../lib/supabase';
+import { supabase } from '../server';
 
 const router = express.Router();
 
@@ -13,7 +13,7 @@ const validateWaitlistEntry = [
 ];
 
 // Add email to waitlist
-router.post('/', validateWaitlistEntry, async (req: Request, res: Response) => {
+router.post('/', validateWaitlistEntry, async (req, res) => {
   try {
     // Check for validation errors
     const errors = validationResult(req);
@@ -39,15 +39,12 @@ router.post('/', validateWaitlistEntry, async (req: Request, res: Response) => {
     // Create new waitlist entry
     const { data, error } = await supabase
       .from('waitlist')
-      .insert([{ email, created_at: new Date().toISOString() }])
+      .insert([{ email }])
       .select()
       .single();
 
     if (error) {
-      console.error('Supabase error:', error);
-      return res.status(500).json({
-        message: 'An error occurred while processing your request'
-      });
+      throw error;
     }
 
     return res.status(201).json({
